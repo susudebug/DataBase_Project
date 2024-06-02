@@ -1,4 +1,23 @@
-from login import test_admin_login
+from login import *
+
+if __name__=="__main__":
+    state = register("abc","123456")
+    if state["success"]==True:
+        account=state['data']
+        print("创建账号成功"+str(account))
+    else:
+        print(state["message"])
+        exit(0)
+    
+    state = login(account,"123456")
+    if state["success"]==True:
+        account=state['data']
+        print("登录账号成功"+str(account))
+    else:
+        print(state["message"])
+        exit(0)    
+
+"""from login import test_admin_login
 
 cnxn = test_admin_login()
 # 查询
@@ -26,4 +45,4 @@ print("新建用户L2并绑定到U2")
 cursor.execute("sp_addlogin 'L2','123456'")
 cursor.execute("sp_adduser 'L2','U2'")
 cursor.close()
-cnxn.close()
+cnxn.close()"""
