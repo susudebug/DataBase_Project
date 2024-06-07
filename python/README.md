@@ -38,9 +38,9 @@ finally:
 
 * **add_reader函数**
 
-  **功能：**添加读者信息
+  **功能：** 添加读者信息
 
-  **参数：**library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None
+  **参数：** library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None
 
   调用此函数时library_card_number一定要给出，其余可以省略。
 
@@ -67,14 +67,12 @@ finally:
 
     ```python
     except pyodbc.DatabaseError as e:
-        cursor.rollback()
-        cursor.close()
-        cnxn.close()
+    	...
         return error(301, '添加读者失败: ' + str(e))
     except Exception as e:
         return error(401, "错误: " + str(e))
     ```
-
+  
 * delete_reader函数
 
   功能：删除指定读者信息
@@ -103,11 +101,11 @@ finally:
 
 * print_all_reader_info函数
 
-  功能：打印整个reader_info表格
+  **功能**：打印整个reader_info表格
 
-  参数：无
+  **参数**：无
 
-  返回值：
+  **返回值**：
 
   * 成功
 
@@ -129,11 +127,11 @@ finally:
 
 * get_reader_info函数
 
-  功能：打印指定读者的信息
+  **功能**：打印指定读者的信息
 
-  参数：library_card_number
+  **参数**：library_card_number
 
-  返回值：
+  **返回值**：
 
   * 成功
 
@@ -156,11 +154,11 @@ finally:
 
 * get_overdue_books函数
 
-  功能：查询所有到期未归还的图书信息
+  **功能**：查询所有到期未归还的图书信息
 
-  参数：无
+  **参数**：无
 
-  返回值：
+  **返回值**：
 
   * 成功
 
@@ -182,11 +180,11 @@ finally:
 
 * get_reader_fines函数
 
-  功能：查询所有读者的欠款状况
+  **功能**：查询所有读者的欠款状况
 
-  参数：无
+  **参数**：无
 
-  返回值：
+  **返回值**：
 
   * 成功
 
