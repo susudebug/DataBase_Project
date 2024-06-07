@@ -1,6 +1,6 @@
 from admin import *
 def test_admin_reader():
-    # Print all reader info initially
+    # 打印所有读者信息
     print("Initial reader info:")
     result = print_all_reader_info()
     if result['success']==False:
@@ -9,7 +9,7 @@ def test_admin_reader():
         for reader in result["data"]["readers"]:
             print(reader)
     
-    # Add a new reader
+    # 添加读者
     print("\nAdding a new reader:")
     result = add_reader(
         library_card_number=1,
@@ -23,7 +23,7 @@ def test_admin_reader():
     else:
         print(result['data'])
     
-    # Print all reader info after adding
+    # 打印所有读者信息
     print("\nReader info after adding a new reader:")
     result = print_all_reader_info()
     if result['success']==False:
@@ -32,7 +32,7 @@ def test_admin_reader():
         for reader in result["data"]["readers"]:
             print(reader)
     
-    # Update reader info
+    # 更新读者信息
     print("\nUpdating reader info:")
     result = update_reader(
         library_card_number=1,
@@ -45,7 +45,7 @@ def test_admin_reader():
     else:
         print(result['data'])
     
-    # Print all reader info after updating
+    # 打印所有读者信息
     print("\nReader info after updating:")
     result = print_all_reader_info()
     if result['success']==False:
@@ -54,7 +54,7 @@ def test_admin_reader():
         for reader in result["data"]["readers"]:
             print(reader)
     
-    # Get specific reader info
+    # 打印指定读者信息
     print("\nGetting reader info for library_card_number=1:")
     result = get_reader_info(1)
     if result['success']==False:
@@ -69,7 +69,7 @@ def test_admin_reader():
     else:
         print(result['data'])
     
-    # Delete reader
+    # 删除读者信息
     print("\nDeleting reader with library_card_number=1:")
     result = delete_reader(library_card_number=1)
     if result['success']==False:
@@ -77,7 +77,7 @@ def test_admin_reader():
     else:
         print(result)
     
-    # Print all reader info after deleting
+    # 打印所有读者信息
     print("\nReader info after deleting the reader:")
     result = print_all_reader_info()
     if result['success']==False:
@@ -101,7 +101,6 @@ def test_admin_book_borrow():
     else:
         for reader in result["data"]["readers_fines"]:
             print(reader)
-# To test the functions, call:
 
 #test_admin_reader()
 test_admin_book_borrow()

@@ -188,10 +188,8 @@ def get_overdue_books():
     try:
         cnxn = test_admin_login() 
         cursor = cnxn.cursor()
-        # 获取当前时间
-        current_date = datetime.now().date().isoformat() 
 
-        # 查询所有到期未归还的图书信息的SQL语句
+        current_date = datetime.now().date().isoformat() 
         select_query = """
             SELECT bi.borrow_id, bi.library_card_number, bi.ISBN, bi.borrow_date, bi.due_date,bi.return_date
             FROM borrow_info bi
