@@ -65,7 +65,7 @@ VALUES ( 'admin_password', 1);
 -- 插入读者
 INSERT INTO login_table (Password, Role)
 VALUES ( 'reader_password', 0);
-
+--添加读者信息
 INSERT INTO reader_info (library_card_number, name, gender, title, available_quantity, borrowed_quantity, department, contact_number)
 VALUES (2, '张三', '男', '学生', 10, 0, '计算机科学与技术', '12345678901');
 
@@ -73,14 +73,16 @@ VALUES (2, '张三', '男', '学生', 10, 0, '计算机科学与技术', '12345678901');
 INSERT INTO book_info (ISBN, book_title, publisher, author, total_quantity, available_quantity, is_borrowable)
 VALUES  
 ('978-3-16-148410-0', '图书1', '出版社A', '作者A', 5, 5, 1),
-('978-0-12-345678-9', '图书2', '出版社B', '作者B', 3, 2, 1),
+('978-0-12-345678-9', '图书2', '出版社B', '作者B', 3, 3, 1),
 ('978-1-23-456789-0', '图书3', '出版社C', '作者C', 4, 4, 1),
 ('978-9-87-654321-0', '图书4', '出版社D', '作者D', 2, 2, 1),
 ('978-4-56-789123-0', '图书5', '出版社E', '作者E', 6, 6, 1);
 
+
 -- 插入借阅信息
 INSERT INTO borrow_info (library_card_number, ISBN, borrow_date, due_date, return_date, fine)
 VALUES 
-(2, '978-3-16-148410-0', '2023-01-01', '2023-01-15', '2023-01-14', 0.00),
-(2, '978-0-12-345678-9', '2023-02-01', '2023-02-15', NULL, 0.00);
+(2, '978-3-16-148410-0', '2023-01-01', '2023-01-15', '2023-01-14', 0.00),--过期已还
+(2, '978-0-12-345678-9', '2023-02-01', '2023-02-15', NULL, 12.00),--过期未还
+(2, '978-1-23-456789-0', '2023-01-01', '2025-01-15', NULL, 0.00) --未过期且未还
 
