@@ -3,7 +3,7 @@ import os
 from returnValue import *
 
 # server = "your_server"
-server = os.environ['SQL_SERVER'] # 输入要连接的服务器名称
+server = os.environ['MJY'] # 输入要连接的服务器名称
 database = 'LibraryDB'
 
 def admin_login():
