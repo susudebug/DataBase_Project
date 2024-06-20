@@ -233,9 +233,9 @@ VALUES
 
 - **search_books 函数**
 
-  **功能：**搜索图书，搜索关键词可以是书籍的ISBN号、作者、出版社和书名
+  **功能：** 搜索图书，搜索关键词可以是书籍的ISBN号、作者、出版社和书名
 
-  **参数：**输入字符串，可以是 ISBN，author，publisher 或者 book_title
+  **参数：** 输入字符串，可以是 ISBN，author，publisher 或者 book_title
 
   **返回值：**
 
@@ -270,13 +270,13 @@ VALUES
 
   
 
-  **运行测试：**
+  **运行测试**：
 
   查找成功：
 
-  ![image-20240620000102283](./assets/image-20240620000102283.png)
+  ![image-20240620000102283](assets/image-20240620000102283.png)
 
-  没有图书记录：<img src="./assets/image-20240619235846003.png" alt="image-20240619235846003" style="zoom:50%;" />
+  没有图书记录：<img src="assets/image-20240619235846003.png" alt="image-20240619235846003" style="zoom:50%;" />
 
   
 
@@ -284,15 +284,15 @@ VALUES
 
   - **get_overdue_books 函数**
 
-    **功能：**查询未归还图书信息
+    **功能**：查询未归还图书信息
 
-    **参数：** library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None
+    **参数**： library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None
 
     调用此函数时library_card_number一定要给出，其余可以省略。
 
     其中available_quantity(可借数量)默认为10，borrowed_quantity(已借书数量)默认为0、
 
-    **返回值：**
+    **返回值**：
 
     - 成功
 
@@ -320,11 +320,11 @@ VALUES
           return error(401, "错误: " + str(e))
       ```
 
-    **运行测试：**
+    **运行测试**：
 
     查找成功：
 
-    ![image-20240619235131161](./assets/image-20240619235131161.png)
+    ![image-20240619235131161](assets/image-20240619235131161.png)
 
     
 
@@ -332,11 +332,11 @@ VALUES
 
   - **get_reader_info 函数**
 
-    **功能：**查询读者个人信息和读者借书信息
+    **功能：** 查询读者个人信息和读者借书信息
 
-    **参数：**输入 library_card_number
+    **参数：** 输入 library_card_number
 
-    **返回值：**
+    **返回值**：
 
     - 成功
 
@@ -385,11 +385,11 @@ VALUES
               return error(401, "错误: " + str(e))
       ```
 
-    **运行测试：**
+    **运行测试**：
 
     查询成功：
 
-    ![image-20240620001301785](./assets/image-20240620001301785.png)
+    ![image-20240620001301785](assets/image-20240620001301785.png)
 
-    没有该读者记录：<img src="./assets/image-20240619235024825.png" alt="image-20240619235024825" style="zoom:50%;" />
+    没有该读者记录：<img src="assets/image-20240619235024825.png" alt="image-20240619235024825" style="zoom:50%;" />
 
