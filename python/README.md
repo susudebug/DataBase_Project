@@ -51,20 +51,24 @@ finally:
   * 成功
 
     ```python
-    return success({
-        "library_card_number": library_card_number,
-        "name": name,
-        "gender": gender,
-        "title": title,
-        "available_quantity": available_quantity,
-        "borrowed_quantity": borrowed_quantity, 
-        "department": department, 
-        "contact_number": contact_number
-    })
+    {
+        "success":True,
+        "data":{
+                "library_card_number": library_card_number,
+                "name": name,
+                "gender": gender,
+                "title": title,
+                "available_quantity": available_quantity,
+                "borrowed_quantity": borrowed_quantity, 
+                "department": department, 
+                "contact_number": contact_number
+                }
+    }
+    
     ```
-
+  
   * 失败
-
+  
     ```python
     except pyodbc.DatabaseError as e:
     	...
@@ -84,9 +88,10 @@ finally:
   * 成功
 
     ```python
-    return success({
-        "library_card_number":library_card_number
-    })
+    {
+        "success":True,
+        "data":{"library_card_number":library_card_number}
+    }
     ```
 
   * 失败
@@ -110,7 +115,21 @@ finally:
   * 成功
 
     ```python
-    return success({"readers": all_reader_info})
+    {
+        "success":True,
+        "data":{"readers":[数组元素]}
+    }
+    # 数组元素
+    {
+    "library_card_number": library_card_number,
+    "name": name,
+    "gender": gender,
+    "title": title,
+    "available_quantity": available_quantity,
+    "borrowed_quantity": borrowed_quantity, 
+    "department": department, 
+    "contact_number": contact_number
+    }
     ```
 
     其中all_reader_info是一个字典类型，内容为reader_info表格
@@ -136,7 +155,19 @@ finally:
   * 成功
 
     ```python
-    return success(reader_info)
+    {
+        "success":True,
+        "data":{
+                "library_card_number": library_card_number,
+                "name": name,
+                "gender": gender,
+                "title": title,
+                "available_quantity": available_quantity,
+                "borrowed_quantity": borrowed_quantity, 
+                "department": department, 
+                "contact_number": contact_number
+                }
+    }
     ```
 
     其中reader_info为一个字典类型，内容为借书证号为library_card_number的读者信息
@@ -163,7 +194,19 @@ finally:
   * 成功
 
     ```python
-    return success({"overdue_books": overdue_books_info})
+    {
+        "success":True,
+        "data":{"overdue_books":[数组元素]}
+    }
+    # 数组元素
+    {
+    "borrow_id": borrow_id,
+    "library_card_number": library_card_number,
+    "ISBN": ISBN,
+    "borrow_date": borrow_date,
+    "due_date": due_date,
+    "return_date":return_date
+    }
     ```
 
     其中overdue_books_info是一个字典类型，内容为所有到期未归还的图书信息
@@ -189,13 +232,22 @@ finally:
   * 成功
 
     ```python
-    return success({"readers_fines": reader_fines_info})
+    {
+        "success":True,
+        "data":{"readers_fines":[数组元素]}
+    }
+    # 数组元素
+    {
+    "library_card_number": library_card_number,
+    "name": name,
+    "total_fine": float(total_fine) if total_fine is not None else 0.0
+    }
     ```
-
+  
     其中reader_fines_info是一个字典类型，内容为读者欠费状况
-
+  
   * 失败
-
+  
     ```python
     except pyodbc.DatabaseError as e:
     	...
@@ -203,7 +255,7 @@ finally:
     except Exception as e:
         return error(401,"错误"+str(e)) 
     ```
-
+  
     
 
 # test_admin函数
