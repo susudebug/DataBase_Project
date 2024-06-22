@@ -102,6 +102,7 @@ def return_book(library_card_number:int,isbn:str):
         cursor1.execute("update borrow_info set return_date=? where library_card_number=? and ISBN=?",nowtime, library_card_number,str(isbn))
         cursor1.execute("update book_info set available_quantity=available_quantity+1 where ISBN=? ",isbn)
         cursor1.execute("update book_info set is_borrowable=1 where ISBN=? ",isbn)
+        cursor1.execute("update borrow_info set fine=0 where ISBN=? ",isbn)
 
         # 查找读者信息
         end_time = now + datetime.timedelta(days=7)

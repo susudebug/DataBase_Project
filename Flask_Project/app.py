@@ -14,15 +14,15 @@ def Login():
             print(login_status['data'])
     return render_template('login.html')
 # 管理员页面
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/admin/index', methods=['GET', 'POST'])
 def Admin_menu():
 
     return render_template('base.html')
 
 
 # 添加图书
-@app.route('/Add_book', methods=['GET','POST'])
-def Add_book():
+@app.route('/admin/Add_book', methods=['GET','POST'])
+def Admin_add_book():
     if request.method == 'POST':
         isbn=request.form['isbn']
         book_title = request.form['book_title']
@@ -41,8 +41,8 @@ def Add_book():
     return render_template('addbook.html')
 
 # 到期未还图书
-@app.route('/Overdue_book', methods=['GET', 'POST'])
-def Overdue_book():
+@app.route('/admin/Overdue_book', methods=['GET', 'POST'])
+def Admin_overdue_book():
     return render_template('overduebook.html')
 
 if __name__ == '__main__':

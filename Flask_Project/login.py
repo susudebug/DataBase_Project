@@ -2,7 +2,8 @@ import pyodbc
 import os
 from returnValue import *
 
-server = "LAPTOP-CG498NGK"
+server = ""
+# server = os.environ[''] # 输入要连接的服务器名称
 database = 'LibraryDB'
 
 def admin_login():
@@ -62,14 +63,16 @@ def login(account:int,password:str):
         cnxn = admin_login()
         cnxn.autocommit=False
         cursor1 = cnxn.cursor()
-        cursor1.execute("select * from login_table where Account="+str(account)+" and Password='"+password+"'")
-        if cursor1.fetchone() is None:
+        cursor1.execute("select Role from login_table where Account="+str(account)+" and Password='"+password+"'")
+        role = cursor1.fetchone()
+        if role is None:
             cursor1.close()
             cnxn.close()
             return error(1,"用户名或密码错误")
+        
         cursor1.close()
         cnxn.close()
-        return success(account)
+        return success(role)
     except pyodbc.DatabaseError as e:
         cursor1.rollback()
         cursor1.close()
