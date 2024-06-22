@@ -13,7 +13,7 @@ def add_reader(library_card_number, name=None, gender=None, title=None, availabl
     try:
         cnxn = admin_login()
         cursor = cnxn.cursor()
-        
+
         insert_query = """
         INSERT INTO reader_info (library_card_number, name, gender, title, available_quantity, borrowed_quantity, department, contact_number)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
@@ -30,8 +30,8 @@ def add_reader(library_card_number, name=None, gender=None, title=None, availabl
             "gender": gender,
             "title": title,
             "available_quantity": available_quantity,
-            "borrowed_quantity": borrowed_quantity, 
-            "department": department, 
+            "borrowed_quantity": borrowed_quantity,
+            "department": department,
             "contact_number": contact_number
         })
     except pyodbc.DatabaseError as e:
@@ -307,41 +307,43 @@ def add_book(isbn, book_title, publisher=None, author=None, total_quantity=10, a
 # 函数：查询所有读者的欠款状况
 def get_reader_fines():
     try:
-        cnxn = admin_login() 
+        cnxn = admin_login()
         cursor = cnxn.cursor()
+
         # 查询所有读者的欠款总额的SQL语句
         select_query = """
             SELECT r.library_card_number, r.name, SUM(bi.fine) AS total_fine, r.contact_number
             FROM reader_info r
             LEFT JOIN borrow_info bi ON r.library_card_number = bi.library_card_number
             WHERE bi.return_date IS NULL AND bi.due_date < GETDATE()
-            GROUP BY r.library_card_number, r.name,r.contact_number
+            GROUP BY r.library_card_number, r.name, r.contact_number
         """
 
         cursor.execute(select_query)
         rows = cursor.fetchall()
         reader_fines_info = []
         for row in rows:
-            library_card_number, name, total_fine,contact_number = row
+            library_card_number, name, total_fine, contact_number = row
             reader_info = {
                 "library_card_number": library_card_number,
                 "name": name,
                 "total_fine": float(total_fine) if total_fine is not None else 0.0,
-                'contact_number':contact_number
+                "contact_number": contact_number
             }
             reader_fines_info.append(reader_info)
 
         cursor.close()
         cnxn.close()
         return success({"readers_fines": reader_fines_info})
-    
+
     except pyodbc.DatabaseError as e:
-        cursor.rollback()
-        cursor.close()
-        cnxn.close()
-        return error(301, '查询读者欠款状况失败:' + str(e))
+        if 'cursor' in locals():
+            cursor.close()
+        if 'cnxn' in locals():
+            cnxn.close()
+        return error(301, '查询读者欠款状况失败: ' + str(e))
     except Exception as e:
-        return error(401, "错误" + str(e))
+        return error(401, "错误: " + str(e))
 
 
 

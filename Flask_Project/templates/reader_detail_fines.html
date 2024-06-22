@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block card_header %}
-<span><a href="/index"> 读者管理 / </a></span><span>读者信息</span>
+    <span><a href="/index"> 读者管理 / </a></span><span>读者详细欠费情况</span>
 {% endblock %}
 
 
@@ -12,38 +12,33 @@
                             <tr>
                                 <th>借书证号</th>
                                 <th>姓名</th>
-                                <th>性别</th>
-                                <th>职称</th>
-                                <th>可借数量</th>
-                                <th>已借数量</th>
-                                <th>工作部门</th>
-                                <th>联系电话</th>
+                                <th>ISBN书号</th>
+                                <th>借出日期</th>
+                                <th>借阅期限</th>
+                                <th>归还日期</th>
+                                <th>罚款</th>
                             </tr>
                         </thead>
                         <tbody id="layerbody">
-                                    {% for reader in readers %}
+                                    {% for fine in fines %}
                                     <tr>
-                                        <td>{{ reader['library_card_number'] }}</td>
-                                        <td>{{ reader['name'] }}</td>
-                                        <td>{{ reader['gender'] }}</td>
-                                        <td>{{ reader['title'] }}</td>
-                                        <td>{{ reader['available_quantity'] }}</td>
-                                        <td>{{ reader['borrowed_quantity'] }}</td>
-                                        <td>{{ reader['department'] }}</td>
-                                        <td>{{ reader['contact_number'] }}</td>
+                                        <td>{{ fine['library_card_number'] }}</td>
+                                        <td>{{ fine['name'] }}</td>
+                                        <td>{{ fine['ISBN'] }}</td>
+                                        <td>{{ fine['borrow_date'] }}</td>
+                                        <td>{{ fine['due_date'] }}</td>
+                                        <td>{{ fine['return_date'] }}</td>
+                                        <td>{{ fine['fine'] }}</td>
                                     </tr>
                                     {% endfor %}
                         </tbody>
                     </table>
-    <div id="pagination-controls">
+        <div id="pagination-controls">
         <button id="previousPage">上一页</button>
         <span>当前页: <span id="currentPage">1</span></span>
         <button id="nextPage">下一页</button>
     </div>
-
 {% endblock %}
-
-
 {% block script %}
 <script type="text/javascript">
     $(document).ready(function() {
@@ -66,7 +61,5 @@
     });
 </script>
 {% endblock %}
-
-
 
 

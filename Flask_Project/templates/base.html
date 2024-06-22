@@ -8,6 +8,9 @@
     <script type="text/javascript" href="../static/layui/layui.js"></script>
     <script type="text/javascript" href="../static/main.js"></script>
     <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -43,17 +46,6 @@
     <div class="layui-side">
         <div class="layui-side-scroll" style="background: #333">
             <ul class="layui-nav layui-nav-tree" style="background: #333">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-set"></i>&nbsp系统管理</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp系统设置</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp个人中心</a>
-                        </dd>
-                    </dl>
-                </li>
 
                 <li class="layui-nav-item">
                     <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-template-1"></i>&nbsp图书管理</a>
@@ -99,11 +91,12 @@
     <div class="layui-body">
         <div class="layui-row">
             <div class="layui-card-header">
-                <h2>卡片标题</h2>
+                <h2>{% block card_header %}{% endblock %}</h2>
             </div>
             <div class="layui-fluid">
                 <div class="layui-card-body">
-                    这里是卡片内容
+                    {% block card_body %}
+                    {% endblock %}
                 </div>
             </div>
         </div>
@@ -125,10 +118,14 @@
 <!-- 标题栏显示当前登录的用户名 -->
 <script>
     // 示例代码以展示用户名和头像
-    $("#username").text("当前用户名");
+    $("#username").text("admin");
     var avata_url = "../static/img/avata/defaultavata.jpg";
     $("#headavata").attr("src", avata_url);
 </script>
+{% block script %}
+{% endblock %}
 
+{% block outest %}
+{% endblock %}
 </body>
 </html>

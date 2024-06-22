@@ -1,6 +1,9 @@
 from flask import Flask, request,render_template, jsonify
 from login import *
 from admin import *
+from updateFines import *
+from print_fines import *
+update_fines()
 app = Flask(__name__)
 
 # 登录页面
@@ -16,7 +19,7 @@ def Login():
 # 管理员页面
 @app.route('/admin/index', methods=['GET', 'POST'])
 def Admin_menu():
-    return render_template('base.html')
+    return render_template('adminIndex.html')
 
 
 # 添加图书
@@ -134,5 +137,16 @@ def Admin_get_reader_fines():
     print(fines)
     return render_template('getReaderfines.html',fines=fines)
 
+
+@app.route('/reader_detail_fines')
+def reader_detail_fines():
+    library_card_number =int( request.args.get('library_card_number'))
+    try:
+        data=print_fines_record(library_card_number)
+        data=data['data']['fines_info']
+        return render_template('reader_detail_fines.html', fines=data)
+
+    except pyodbc.DatabaseError as e:
+        return f"查询失败：{str(e)}"
 if __name__ == '__main__':
     app.run()

@@ -1,109 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>图书管理系统</title>
-    <link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css">
-    <script type="text/javascript" href="../static/bootstrap/jquery.min.js"></script>
-    <script type="text/javascript" href="../static/layui/layui.js"></script>
-    <script type="text/javascript" href="../static/main.js"></script>
-    <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
-</head>
-<body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <!-- 页面头部 -->
-    <div class="layui-header" style="background: #134556">
-        <div class="layui-logo layui-layout-left">
-            <a class="layui-logo" href="/index">
-                <div class="layui-row">
-                    <div class="layui-row layui-col-md3" style="text-align: right"><img src="../static/img/logo.png" style="height: 20px;width: 20px;"></div>
-                    <div class="layui-row layui-col-md8"><h3 style="color: #e6e6e6">图书管理系统</h3></div>
-                </div>
-            </a>
-        </div>
-        <ul class="layui-nav layui-layout-right">
-            <li class="" style="display: inline-block;vertical-align: middle">
-                <a href="#">
-                    <img id="headavata" src="" class="layui-nav-img">
-                </a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="#"><p id="username"></p></a>
-                <dl class="layui-nav-child">
-                    <a href="#">个人信息</a>
-                    <a href="#">修改密码</a>
-                </dl>
-            </li>
-            <li class="layui-nav-item">
-                <a href="#">退出</a>
-            </li>
-        </ul>
-    </div>
-    <!-- 侧边导航栏 -->
-    <div class="layui-side">
-        <div class="layui-side-scroll" style="background: #333">
-            <ul class="layui-nav layui-nav-tree" style="background: #333">
-                <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-set"></i>&nbsp系统管理</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp系统设置</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp个人中心</a>
-                        </dd>
-                    </dl>
-                </li>
+{% extends 'base.html' %}
 
-                <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-template-1"></i>&nbsp图书管理</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_add_book') }}">&nbsp&nbsp&nbsp&nbsp&nbsp图书入库</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_overdue_book') }}">&nbsp&nbsp&nbsp&nbsp&nbsp到期未还图书</a>
-                        </dd>
-                    </dl>
-                </li>
-
-                <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-user"></i>&nbsp读者管理</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_all_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp读者信息</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_add_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp添加读者</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_update_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp更新读者信息</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_delete_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp删除读者信息</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_get_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询读者</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_get_reader_fines') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询欠费情况</a>
-                        </dd>
-                    </dl>
-                </li>
+{% block card_header %}
+    <span><a href="/index"> 读者管理 / </a></span><span>删除读者信息</span>
+{% endblock %}
 
 
-            </ul>
-        </div>
-    </div>
-    <!-- 主体内容 -->
-    <div class="layui-body">
-        <div class="layui-row">
-            <div class="layui-card-header">
-                <h2><span><a href="/index"> 读者管理 / </a></span><span>删除读者信息</span></h2>
-            </div>
-            <div class="layui-fluid">
-                <div class="layui-card-body">
-                    <table class="layui-table" id="layer">
+{% block card_body %}
+
+<table class="layui-table" id="layer">
                         <thead>
                             <tr>
                                 <th>借书证号</th>
@@ -133,32 +37,13 @@
                                     {% endfor %}
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
+        <div id="pagination-controls">
+        <button id="previousPage">上一页</button>
+        <span>当前页: <span id="currentPage">1</span></span>
+        <button id="nextPage">下一页</button>
     </div>
-
-    <!-- 页面底部 -->
-    <div class="layui-footer">
-        <p>Copyright 2021 Information Management System Course</p>
-    </div>
-</div>
-<script src="../static/layui/layui.js"></script>
-<script src="../static/jquery/jquery.min.js"></script>
-<script>
-    layui.use('element', function (){
-        var element = layui.element;
-        element.init();
-    });
-</script>
-
-<!-- 标题栏显示当前登录的用户名 -->
-<script>
-    // 示例代码以展示用户名和头像
-    $("#username").text("当前用户名");
-    var avata_url = "../static/img/avata/defaultavata.jpg";
-    $("#headavata").attr("src", avata_url);
-</script>
+{% endblock %}
+{% block script %}
     <script>
         function deleteRow(libraryCardNumber, rowIndex) {
             if (confirm("Are you sure you want to delete this row?")) {
@@ -184,27 +69,26 @@
             }
         }
     </script>
-{#<script src="../static/layui/layui.js"></script>#}
-{#    <script>#}
-{#        layui.use('table', function(){#}
-{#            var table = layui.table;#}
-{##}
-{#            table.render({#}
-{#                elem: '#bookTable',#}
-{#                data: {{ books|tojson }},#}
-{#                cols: [[#}
-{#                    {field: 'isbn', title: 'ISBN'},#}
-{#                    {field: 'name', title: '书名'},#}
-{#                    {field: 'author', title: '作者'},#}
-{#                    {field: 'press', title: '出版社'},#}
-{#                ]],#}
-{#                page: true,#}
-{#                limit: 10,#}
-{#                limits: [10, 20, 30, 40, 50]#}
-{#            });#}
-{#        });#}
-{#    </script>#}
-</body>
-</html>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var table = $('#layer').DataTable({
+            "pageLength": 10,
+            "pagingType": "simple_numbers",
+            "drawCallback": function(settings) {
+                var pageInfo = table.page.info();
+                $('#currentPage').text(pageInfo.page + 1);
+            }
+        });
+
+        $('#previousPage').on('click', function() {
+            table.page('previous').draw('page');
+        });
+
+        $('#nextPage').on('click', function() {
+            table.page('next').draw('page');
+        });
+    });
+</script>
+{% endblock %}
 
 
