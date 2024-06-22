@@ -3,11 +3,7 @@ def test_admin_reader():
     # 打印所有读者信息
     print("Initial reader info:")
     result = print_all_reader_info()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["readers"]:
-            print(reader)
+    print(result)
     
     # 添加读者
     print("\nAdding a new reader:")
@@ -18,19 +14,12 @@ def test_admin_reader():
         title="教授",
         contact_number="12345678901",
     )
-    if result['success']==False:
-        print(result)
-    else:
-        print(result['data'])
+    print(result)
     
     # 打印所有读者信息
     print("\nReader info after adding a new reader:")
     result = print_all_reader_info()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["readers"]:
-            print(reader)
+    print(result)
     
     # 更新读者信息
     print("\nUpdating reader info:")
@@ -40,68 +29,42 @@ def test_admin_reader():
         title="副教授",
         contact_number="09876543210"
     )
-    if result['success']==False:
-        print(result)
-    else:
-        print(result['data'])
+    print(result)
     
     # 打印所有读者信息
     print("\nReader info after updating:")
     result = print_all_reader_info()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["readers"]:
-            print(reader)
+    print(result)
     
     # 打印指定读者信息
     print("\nGetting reader info for library_card_number=1:")
     result = get_reader_info(1)
-    if result['success']==False:
-        print(result)
-    else:
-        print(result['data'])
+    print(result)
     
     print("\nGetting reader info for library_card_number=200 (non-existent):")
     result = get_reader_info(200)
-    if result['success']==False:
-        print(result)
-    else:
-        print(result['data'])
+    print(result)
     
     # 删除读者信息
     print("\nDeleting reader with library_card_number=1:")
     result = delete_reader(library_card_number=1)
-    if result['success']==False:
-        print(result)
-    else:
-        print(result)
+    print(result)
     
     # 打印所有读者信息
     print("\nReader info after deleting the reader:")
     result = print_all_reader_info()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["readers"]:
-            print(reader)
+    print(result)
 
 
 
 def test_admin_book_borrow():
     result=get_overdue_books()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["overdue_books"]:
-            print(reader)
+    print(result)
     result=get_reader_fines()
-    if result['success']==False:
-        print(result)
-    else:
-        for reader in result["data"]["readers_fines"]:
-            print(reader)
+    print(result)
+    result=add_book(isbn='978-0-12-377778-9',book_title='云边有个小卖部',publisher='XMU信息学院')
+    print(result)
 
-#test_admin_reader()
+# test_admin_reader()
 test_admin_book_borrow()
 

@@ -1,4 +1,4 @@
-from login import test_admin_login
+from login import admin_login
 from returnValue import *
 import pyodbc
 from datetime import datetime
@@ -11,7 +11,7 @@ from datetime import datetime
 def add_reader(library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None):
 
     try:
-        cnxn = test_admin_login()
+        cnxn = admin_login()
         cursor = cnxn.cursor()
         
         insert_query = """
@@ -47,7 +47,7 @@ def add_reader(library_card_number, name=None, gender=None, title=None, availabl
 # 可借图书总数默认为10本，已借图书数默认为0本
 def update_reader(library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None):
     try:
-        cnxn = test_admin_login()
+        cnxn = admin_login()
         cursor = cnxn.cursor()
         update_fields = []
         update_values = []
@@ -105,7 +105,7 @@ def update_reader(library_card_number, name=None, gender=None, title=None, avail
 # 删除读者信息的函数
 def delete_reader(library_card_number):
     try:
-        cnxn = test_admin_login()
+        cnxn = admin_login()
         cursor = cnxn.cursor()
         delete_query = "DELETE FROM reader_info WHERE library_card_number = ?"
         cursor.execute(delete_query, (library_card_number,))
@@ -126,7 +126,7 @@ def delete_reader(library_card_number):
 # 查询并打印reader_info表的函数
 def print_all_reader_info():
     try:
-        cnxn = test_admin_login()
+        cnxn = admin_login()
         cursor = cnxn.cursor()
         select_query = "SELECT * FROM reader_info"
         cursor.execute(select_query)
@@ -156,7 +156,7 @@ def print_all_reader_info():
 # 通过借书证号查询读者信息的函数
 def get_reader_info(library_card_number):
     try:
-        cnxn = test_admin_login()
+        cnxn = admin_login()
         cursor = cnxn.cursor()
         select_query = "SELECT * FROM reader_info WHERE library_card_number = ?"
         cursor.execute(select_query, (library_card_number,))
@@ -186,7 +186,7 @@ def get_reader_info(library_card_number):
 # 函数：查询所有到期未归还的图书信息
 def get_overdue_books():
     try:
-        cnxn = test_admin_login() 
+        cnxn = admin_login() 
         cursor = cnxn.cursor()
 
         current_date = datetime.now().date().isoformat() 
@@ -227,10 +227,71 @@ def get_overdue_books():
     except Exception as e:
         return error(401, "错误" + str(e))
 
+# 函数：添加新书
+# 其中可借总数默认为10，当前可借数量默认为10
+def add_book(isbn, book_title, publisher=None, author=None, total_quantity=10, available_quantity=10, is_borrowable=1):
+    try:
+        # 假设 admin_login 是一个返回数据库连接对象的函数
+        cnxn = admin_login()
+        cursor = cnxn.cursor()
+
+        # 查询是否已存在相同的 ISBN
+        check_query = "SELECT COUNT(*) FROM book_info WHERE ISBN = ?"
+        cursor.execute(check_query, (isbn,))
+        if cursor.fetchone()[0] > 0:
+            cursor.close()
+            cnxn.close()
+            return {
+                "status": "error",
+                "code": 1000,
+                "message": "图书添加失败: ISBN 已存在"
+            }
+
+        insert_query = """
+        INSERT INTO book_info (ISBN, book_title, publisher, author, total_quantity, available_quantity, is_borrowable)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """
+
+        cursor.execute(insert_query,
+                       (isbn, book_title, publisher, author, total_quantity, available_quantity, is_borrowable))
+        cnxn.commit()
+
+        cursor.close()
+        cnxn.close()
+        return {
+            "status": "success",
+            "data": {
+                "ISBN": isbn,
+                "book_title": book_title,
+                "publisher": publisher,
+                "author": author,
+                "total_quantity": total_quantity,
+                "available_quantity": available_quantity,
+                "is_borrowable": is_borrowable
+            }
+        }
+    except pyodbc.DatabaseError as e:
+        cursor.rollback()
+        cursor.close()
+        cnxn.close()
+        return {
+            "status": "error",
+            "code": 301,
+            "message": '添加图书失败: ' + str(e)
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "code": 401,
+            "message": "错误: " + str(e)
+        }
+
+
+
 # 函数：查询所有读者的欠款状况
 def get_reader_fines():
     try:
-        cnxn = test_admin_login() 
+        cnxn = admin_login() 
         cursor = cnxn.cursor()
         # 查询所有读者的欠款总额的SQL语句
         select_query = """
