@@ -99,15 +99,39 @@
     <div class="layui-body">
         <div class="layui-row">
             <div class="layui-card-header">
-                <h2>卡片标题</h2>
+                <h2><span><a href="/index"> 图书管理 / </a></span><span>过期未还图书</span></h2>
             </div>
             <div class="layui-fluid">
                 <div class="layui-card-body">
-                    这里是卡片内容
+                    <table class="layui-table" id="layer">
+                        <thead>
+                            <tr>
+                                <th>借阅号</th>
+                                <th>读者证号</th>
+                                <th>ISBN</th>
+                                <th>借出日期</th>
+                                <th>借阅期限</th>
+                                <th>归还日期</th>
+                            </tr>
+                        </thead>
+                        <tbody id="layerbody">
+                                    {% for book in books %}
+                                    <tr>
+                                        <td>{{ book['borrow_id'] }}</td>
+                                        <td>{{ book['library_card_number'] }}</td>
+                                        <td>{{ book['ISBN'] }}</td>
+                                        <td>{{ book['borrow_date'] }}</td>
+                                        <td>{{ book['due_date'] }}</td>
+                                        <td>{{ book['return_date'] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- 页面底部 -->
     <div class="layui-footer">
         <p>Copyright 2021 Information Management System Course</p>
@@ -129,6 +153,27 @@
     var avata_url = "../static/img/avata/defaultavata.jpg";
     $("#headavata").attr("src", avata_url);
 </script>
-
+{#<script src="../static/layui/layui.js"></script>#}
+{#    <script>#}
+{#        layui.use('table', function(){#}
+{#            var table = layui.table;#}
+{##}
+{#            table.render({#}
+{#                elem: '#bookTable',#}
+{#                data: {{ books|tojson }},#}
+{#                cols: [[#}
+{#                    {field: 'isbn', title: 'ISBN'},#}
+{#                    {field: 'name', title: '书名'},#}
+{#                    {field: 'author', title: '作者'},#}
+{#                    {field: 'press', title: '出版社'},#}
+{#                ]],#}
+{#                page: true,#}
+{#                limit: 10,#}
+{#                limits: [10, 20, 30, 40, 50]#}
+{#            });#}
+{#        });#}
+{#    </script>#}
 </body>
 </html>
+
+

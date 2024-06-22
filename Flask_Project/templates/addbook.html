@@ -72,37 +72,26 @@
                     <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-user"></i>&nbsp读者管理</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp读者信息</a>
+                            <a href="{{ url_for('Admin_all_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp读者信息</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp添加读者</a>
+                            <a href="{{ url_for('Admin_add_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp添加读者</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp更新读者信息</a>
+                            <a href="{{ url_for('Admin_update_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp更新读者信息</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp删除读者信息</a>
+                            <a href="{{ url_for('Admin_delete_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp删除读者信息</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp查询读者</a>
+                            <a href="{{ url_for('Admin_get_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询读者</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp查询欠费情况</a>
+                            <a href="{{ url_for('Admin_get_reader_fines') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询欠费情况</a>
                         </dd>
                     </dl>
                 </li>
 
-                <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-form"></i>&nbsp图书借还</a>
-                    <dl class="layui-nav-child">
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp图书借阅</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="#">&nbsp&nbsp&nbsp&nbsp&nbsp图书归还</a>
-                        </dd>
-                    </dl>
-                </li>
 
             </ul>
         </div>
@@ -145,13 +134,13 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">总数：</label>
+                                    <label class="layui-form-label">馆藏数量：</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="total_quantity" class="layui-input" placeholder="" autocomplete="on">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">可借数：</label>
+                                    <label class="layui-form-label">可借数量：</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="available_quantity" class="layui-input" placeholder="" autocomplete="on">
                                     </div>

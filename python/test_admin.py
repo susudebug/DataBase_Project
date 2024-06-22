@@ -58,12 +58,15 @@ def test_admin_reader():
 
 
 def test_admin_book_borrow():
-    result=get_overdue_books()
-    print(result)
+    # result=get_overdue_books()
+    # print(result['data']['overdue_books'])
+    # result=result['data']['overdue_books']
+    # for book in result:
+    #     print(book['borrow_id'])
     result=get_reader_fines()
     print(result)
-    result=add_book(isbn='978-0-12-377778-9',book_title='云边有个小卖部',publisher='XMU信息学院')
-    print(result)
+    # result=add_book(isbn='978-0-12-377778-9',book_title='云边有个小卖部',publisher='XMU信息学院')
+    # print(result)
 
 # test_admin_reader()
 test_admin_book_borrow()

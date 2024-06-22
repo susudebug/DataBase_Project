@@ -47,8 +47,10 @@ def add_reader(library_card_number, name=None, gender=None, title=None, availabl
 # 可借图书总数默认为10本，已借图书数默认为0本
 def update_reader(library_card_number, name=None, gender=None, title=None, available_quantity=10, borrowed_quantity=0, department=None, contact_number=None):
     try:
+        # 假设 admin_login() 是用于数据库连接的函数
         cnxn = admin_login()
         cursor = cnxn.cursor()
+
         update_fields = []
         update_values = []
 
@@ -74,37 +76,51 @@ def update_reader(library_card_number, name=None, gender=None, title=None, avail
             update_fields.append("contact_number = ?")
             update_values.append(contact_number)
 
-        if update_fields:
-            update_query = f"UPDATE reader_info SET {', '.join(update_fields)} WHERE library_card_number = ?"
-            update_values.append(library_card_number)
-            cursor.execute(update_query, update_values)
-            cnxn.commit()
-            print("读者信息更新成功")
+        if not update_fields:
+            return error(44, '没有提供任何更新信息')
+
+        update_values.append(library_card_number)
+        update_query = f"UPDATE reader_info SET {', '.join(update_fields)} WHERE library_card_number = ?"
+        
+        cursor.execute(update_query, update_values)
+        cnxn.commit()
+        
+
+        # 检查是否有更新的行数
+        if cursor.rowcount == 0:
+            return error(800, f"读者信息不存在：{library_card_number}")
         else:
-            print("没有提供任何更新的字段")
+            print("读者信息更新成功")
         cursor.close()
         cnxn.close()
+
+        # 返回更新后的读者信息
         return success({
-            "library_card_number":library_card_number,
-            "name":name,
-            "gender":gender,
-            "title":title,
-            "available_quantity":available_quantity,
-            "borrowed_quantity":borrowed_quantity, 
-            "department":department, 
-            "contact_number":contact_number
+            "library_card_number": library_card_number,
+            "name": name,
+            "gender": gender,
+            "title": title,
+            "available_quantity": available_quantity,
+            "borrowed_quantity": borrowed_quantity,
+            "department": department,
+            "contact_number": contact_number
         })
+
     except pyodbc.DatabaseError as e:
         cursor.rollback()
         cursor.close()
         cnxn.close()
-        return error(301,'修改读者信息失败:' + str(e))
+        return error(301, '修改读者信息失败: ' + str(e))
+
     except Exception as e:
-        return error(401,"错误"+str(e))  
+        return error(401, "错误：" + str(e))
+  
 
 # 删除读者信息的函数
 def delete_reader(library_card_number):
     try:
+        if library_card_number==None:
+            return error(218,'没有给予要删除的读者信息')
         cnxn = admin_login()
         cursor = cnxn.cursor()
         delete_query = "DELETE FROM reader_info WHERE library_card_number = ?"
@@ -295,22 +311,23 @@ def get_reader_fines():
         cursor = cnxn.cursor()
         # 查询所有读者的欠款总额的SQL语句
         select_query = """
-            SELECT r.library_card_number, r.name, SUM(bi.fine) AS total_fine
+            SELECT r.library_card_number, r.name, SUM(bi.fine) AS total_fine, r.contact_number
             FROM reader_info r
             LEFT JOIN borrow_info bi ON r.library_card_number = bi.library_card_number
             WHERE bi.return_date IS NULL AND bi.due_date < GETDATE()
-            GROUP BY r.library_card_number, r.name
+            GROUP BY r.library_card_number, r.name,r.contact_number
         """
 
         cursor.execute(select_query)
         rows = cursor.fetchall()
         reader_fines_info = []
         for row in rows:
-            library_card_number, name, total_fine = row
+            library_card_number, name, total_fine,contact_number = row
             reader_info = {
                 "library_card_number": library_card_number,
                 "name": name,
-                "total_fine": float(total_fine) if total_fine is not None else 0.0
+                "total_fine": float(total_fine) if total_fine is not None else 0.0,
+                'contact_number':contact_number
             }
             reader_fines_info.append(reader_info)
 

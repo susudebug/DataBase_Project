@@ -99,15 +99,35 @@
     <div class="layui-body">
         <div class="layui-row">
             <div class="layui-card-header">
-                <h2>卡片标题</h2>
+                <h2><span><a href="/index"> 读者管理 / </a></span><span>查询欠费情况</span></h2>
             </div>
             <div class="layui-fluid">
                 <div class="layui-card-body">
-                    这里是卡片内容
+                    <table class="layui-table" id="layer">
+                        <thead>
+                            <tr>
+                                <th>借书证号</th>
+                                <th>姓名</th>
+                                <th>罚款</th>
+                                <th>联系电话</th>
+                            </tr>
+                        </thead>
+                        <tbody id="layerbody">
+                                    {% for fine in fines %}
+                                    <tr>
+                                        <td>{{ fine['library_card_number'] }}</td>
+                                        <td>{{ fine['name'] }}</td>
+                                        <td>{{ fine['total_fine'] }}</td>
+                                        <td>{{ fine['contact_number'] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- 页面底部 -->
     <div class="layui-footer">
         <p>Copyright 2021 Information Management System Course</p>
@@ -129,6 +149,27 @@
     var avata_url = "../static/img/avata/defaultavata.jpg";
     $("#headavata").attr("src", avata_url);
 </script>
-
+{#<script src="../static/layui/layui.js"></script>#}
+{#    <script>#}
+{#        layui.use('table', function(){#}
+{#            var table = layui.table;#}
+{##}
+{#            table.render({#}
+{#                elem: '#bookTable',#}
+{#                data: {{ books|tojson }},#}
+{#                cols: [[#}
+{#                    {field: 'isbn', title: 'ISBN'},#}
+{#                    {field: 'name', title: '书名'},#}
+{#                    {field: 'author', title: '作者'},#}
+{#                    {field: 'press', title: '出版社'},#}
+{#                ]],#}
+{#                page: true,#}
+{#                limit: 10,#}
+{#                limits: [10, 20, 30, 40, 50]#}
+{#            });#}
+{#        });#}
+{#    </script>#}
 </body>
 </html>
+
+

@@ -97,17 +97,65 @@
     </div>
     <!-- 主体内容 -->
     <div class="layui-body">
+
         <div class="layui-row">
             <div class="layui-card-header">
-                <h2>卡片标题</h2>
+                <h2><span><a href="/index"> 读者管理 / </a></span><span>查询读者</span></h2>
+            </div>
+<div class="layui-row">
+                <div class="layui-row layui-col-md6">
+                    <form class="layui-form" method="post" id="searchform">
+                        <div class="layui-row">
+                            <div class="layui-row layui-col-md6">
+                                <div class="layui-input-inline">
+                                     <input type="text" name="library_card_number" class="layui-input" placeholder="请输入想查询读者的借书证号" autocomplete="on" style="width: 600px;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-row layui-col-md6">
+                    <div class="layui-input-block" style="margin-left: 20px">
+                      <button class="layui-btn" lay-submit lay-filter="formDemo" onclick="submitForm()">
+                          <i class="layui-icon layui-icon-search layuiadmin-button-btn" id="search2"></i>
+                      </button>
+                    </div>
+                </div>
             </div>
             <div class="layui-fluid">
                 <div class="layui-card-body">
-                    这里是卡片内容
+
+                    <table class="layui-table" id="layer">
+                        <thead>
+                            <tr>
+                                <th>借书证号</th>
+                                <th>姓名</th>
+                                <th>性别</th>
+                                <th>职称</th>
+                                <th>可借数量</th>
+                                <th>已借数量</th>
+                                <th>工作部门</th>
+                                <th>联系部门</th>
+                            </tr>
+                        </thead>
+                        <tbody id="layerbody">
+                                    <tr>
+                                        <td>{{ reader['library_card_number'] }}</td>
+                                        <td>{{ reader['name'] }}</td>
+                                        <td>{{ reader['gender'] }}</td>
+                                        <td>{{ reader['title'] }}</td>
+                                        <td>{{ reader['available_quantity'] }}</td>
+                                        <td>{{ reader['borrowed_quantity'] }}</td>
+                                        <td>{{ reader['department'] }}</td>
+                                        <td>{{ reader['contact_number'] }}</td>
+                                    </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- 页面底部 -->
     <div class="layui-footer">
         <p>Copyright 2021 Information Management System Course</p>
@@ -129,6 +177,14 @@
     var avata_url = "../static/img/avata/defaultavata.jpg";
     $("#headavata").attr("src", avata_url);
 </script>
-
+    <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/layui/2.5.6/layui.js"></script>
+    <script>
+        function submitForm() {
+            $('#searchform').submit();
+        }
+    </script>
 </body>
 </html>
+
+

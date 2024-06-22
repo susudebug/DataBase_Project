@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <title>图书管理系统</title>
     <link rel="stylesheet" type="text/css" href="../static/layui/css/layui.css">
-    <script type="text/javascript" href="../static/bootstrap/jquery.min.js"></script>
+     <script type="text/javascript" href="../static/bootstrap/jquery.min.js"></script>
     <script type="text/javascript" href="../static/layui/layui.js"></script>
     <script type="text/javascript" href="../static/main.js"></script>
+
     <link rel="icon" href="../static/img/favicon.ico" type="image/x-icon">
 </head>
 <body class="layui-layout-body">
@@ -24,7 +25,7 @@
         <ul class="layui-nav layui-layout-right">
             <li class="" style="display: inline-block;vertical-align: middle">
                 <a href="#">
-                    <img id="headavata" src="" class="layui-nav-img">
+                    <img src="../static/img/avata/defaultavata.jpg" id="headavata" src="" class="layui-nav-img">
                 </a>
             </li>
             <li class="layui-nav-item">
@@ -99,13 +100,74 @@
     <div class="layui-body">
         <div class="layui-row">
             <div class="layui-card-header">
-                <h2>卡片标题</h2>
+                <h2><span><a href="/index"> 读者管理 / </a></span><span>更新读者信息</span></h2>
             </div>
             <div class="layui-fluid">
                 <div class="layui-card-body">
-                    这里是卡片内容
+                    <div class="layui-row">
+                        <div class="layui-row layui-col-md5">
+                            <form class="layui-form" method="post">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">借书证号：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="library_card_number" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">姓名：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="name" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="gender" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">职称：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="title" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">可借数量：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="available_quantity" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">已借数量：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="borrowed_quantity" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">工作部门：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="department" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                                                                                                                    <div class="layui-form-item">
+                                    <label class="layui-form-label">联系电话：</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="contact_number" class="layui-input" placeholder="" autocomplete="on">
+                                    </div>
+                                </div>
+                                <div class="layui-input-inline login-btn" style="margin-left: 150px">
+                                    <button class="layui-btn" id="addsubmit">提交</button>
+                                </div>
+{#                                <div class="layui-form-item" hidden>#}
+{#                                    <div class="layui-input-inline">#}
+{#                                        <input type="text" name="cover" class="layui-input" placeholder="" autocomplete="on" id="pagecoverurl">#}
+{#                                    </div>#}
+{#                                </div>#}
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+        </div>
         </div>
     </div>
     <!-- 页面底部 -->
@@ -121,14 +183,15 @@
         element.init();
     });
 </script>
-
-<!-- 标题栏显示当前登录的用户名 -->
+<script src="../static/layui/layui.js"></script>
 <script>
-    // 示例代码以展示用户名和头像
-    $("#username").text("当前用户名");
-    var avata_url = "../static/img/avata/defaultavata.jpg";
-    $("#headavata").attr("src", avata_url);
+layui.use('form', function(){
+    var form = layui.form;
+    form.render();
+});
 </script>
+
 
 </body>
 </html>
+
