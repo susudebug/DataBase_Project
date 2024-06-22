@@ -241,7 +241,7 @@ finally:
     "library_card_number": library_card_number,
     "name": name,
     "total_fine": float(total_fine) if total_fine is not None else 0.0,
-     
+    
     }
     ```
   
