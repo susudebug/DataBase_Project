@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎注册</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+<body style="background-image: url('{{ url_for('static', filename='img/bg2.jpg') }}');background-size: 100%">
+
+<div class="layui-layout-body">
+    <div class="register-main">
+        <header class="layui-elip">用户注册</header>
+        <form class="layui-form" id="register-form" method="post" action="/register" enctype="multipart/form-data">
+            <!-- 上半部分 -->
+            <div class="layui-row">
+                <div class="layui-row layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">账号：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="username" class="layui-input" placeholder="账号（系统自动生成）" autocomplete="off" id="uname" disabled>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">密码：</label>
+                        <div class="layui-input-inline">
+                            <input type="password" name="password" class="layui-input" placeholder="密码" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">确认密码：</label>
+                        <div class="layui-input-inline">
+                            <input type="password" name="password2" class="layui-input" placeholder="确认密码" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <!-- 头像区 -->
+                <div class="layui-row layui-col-md6" style="text-align: center">
+                    <div>
+                        <img src="{{ url_for('static', filename='img/avata/defaultavata.jpg') }}" style="height: 170px;width: 170px" id="avataid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 下半部分（个人信息） -->
+            <div class="layui-row" style="margin-top: 10px ">
+                <div class="layui-row layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">姓名：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" class="layui-input" autocomplete="on">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系方式：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="contact" class="layui-input" autocomplete="on">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">系别：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="department" class="layui-input" autocomplete="on">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="gender" class="layui-input" autocomplete="on">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">职称：</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" class="layui-input" autocomplete="on">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row layui-col-md-offset6">
+                <div class="layui-input-inline login-btn">
+                    <button type="submit" class="layui-btn">注册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='layui/layui.js') }}"></script>
+<script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+<script>
+layui.use('layer', function(){
+    var layer = layui.layer;
+    $(document).ready(function(){
+        console.log("Document is ready."); // Debugging output
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    console.log("Flash message: {{ message }}"); // Debugging output
+                    layer.alert('{{ message }}');
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    });
+});
+</script>
+
+</body>
+</html>

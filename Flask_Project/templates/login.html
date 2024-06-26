@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎登陆</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+<body style="background-image: url('{{ url_for('static', filename='img/bg2.jpg') }}'); background-size: 100%">
+
+<div class="layui-layout-body">
+    <div class="login-main">
+        <header class="layui-elip">欢迎登录</header>
+        <form class="layui-form" action="/login" method="post">
+            <div class="layui-input-inline">
+                <input type="text" name="account" class="layui-input" placeholder="账号" autocomplete="on">
+            </div>
+            <div class="layui-input-inline">
+                <input type="password" name="password" class="layui-input" placeholder="密码" autocomplete="on">
+            </div>
+            <div class="layui-input-inline login-btn">
+                <button type="submit" class="layui-btn">登录</button>
+            </div>
+            <hr/>
+            <p><a href="{{ url_for('Register') }}" class="fl">立即注册</a></p>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='layui/layui.js') }}"></script>
+<script>
+layui.use('layer', function(){
+    var layer = layui.layer;
+    $(document).ready(function(){
+        console.log("Document is ready."); // Debugging output
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    console.log("Flash message: {{ message }}"); // Debugging output
+                    layer.alert('{{ message }}');
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    });
+});
+</script>
+
+</body>
+</html>

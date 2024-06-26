@@ -1,21 +1,67 @@
-from flask import Flask, request,render_template, jsonify
+from flask import Flask, request, render_template, redirect, url_for, session, flash, jsonify
 from login import *
 from admin import *
 from updateFines import *
 from print_fines import *
 update_fines()
+
 app = Flask(__name__)
+app.secret_key = 'password'  # 设置一个密钥，用于加密会话数据
+
+@app.route('/')
+def home():
+    return redirect(url_for('Login'))
 
 # 登录页面
 @app.route('/login', methods=['GET', 'POST'])
 def Login():
     if request.method == 'POST':
-        account=request.form['account']
+        account = request.form['account']
         password = request.form['password']
-        login_status=login(account,password)
-        if login_status['success']==True:
-            print(login_status['data'])
+        # 假设 login 函数实现了登录逻辑
+        login_status = login(account, password)
+        if login_status['success']:
+            user_data = login_status['data']
+            session['account'] = account
+            session['role'] = user_data[0]
+            if int(session['role']) == 1:
+                return redirect(url_for('Admin_menu'))
+            else:
+                return redirect(url_for('User_home'))
+        else:
+            flash('Login failed. Please check your credentials and try again.')
+            return redirect(url_for('Login'))
     return render_template('login.html')
+    
+
+@app.route('/register',methods=['GET','POST'])
+def Register():
+    if request.method == 'POST':
+        password = request.form['password']
+        password2 = request.form['password2']
+        name = request.form['name']
+        contact = request.form['contact']
+        gender = request.form['gender']
+        department = request.form['department']
+        title = request.form['title']
+
+        if password != password2:
+            print("两次密码不一致")
+            flash("两次密码不一致")
+            return render_template('register.html')
+
+        register_status = register(name=name,password=password,title=title,phone_number=contact,department=department,gender=gender)
+        if register_status['success']:
+            out_string = "注册成功，你的账号为：" +str(register_status['data']) +" 请及时保存这个账号"
+            print(out_string)
+            flash(out_string)
+            return redirect(url_for('Login'))
+        else:
+            print(register_status['message'])
+            flash(register_status['message'])
+            return render_template('register.html')
+    return render_template('register.html')
+
 # 管理员页面
 @app.route('/admin/index', methods=['GET', 'POST'])
 def Admin_menu():
@@ -148,5 +194,12 @@ def reader_detail_fines():
 
     except pyodbc.DatabaseError as e:
         return f"查询失败：{str(e)}"
+    
+@app.route('/user/index')
+def User_home():
+    """
+    TODO:用户的主界面
+    """
+    pass
 if __name__ == '__main__':
     app.run()
