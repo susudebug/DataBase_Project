@@ -110,9 +110,19 @@ def return_book(library_card_number:int,isbn:str):
 
         # 查找读者信息
         end_time = now + datetime.timedelta(days=7)
-        cursor1.execute("select ISBN,due_date,fine from borrow_info where library_card_number=? and due_date<? and return_date is NULL",str(library_card_number),end_time.strftime("%Y-%m-%d")) 
-        ret = cursor1.fetchall()
-
+        cursor1.execute("select ISBN,borrow_date,due_date,fine from borrow_info where library_card_number=? and due_date<? and return_date is NULL",str(library_card_number),end_time.strftime("%Y-%m-%d")) 
+        books = cursor1.fetchall()
+        ret = []
+        for book in books:
+            cursor1.execute("select book_title from book_info where ISBN=?",book.ISBN)
+            book_title = cursor1.fetchall()[0]
+            ret.append({
+                "ISBN":book.ISBN,
+                "book_title":book_title,
+                "borrow_date":book.borrow_date,
+                "due_date":book.due_date,
+                "fine":book.fine
+            })
         cnxn.autocommit=True
         cursor1.commit()
         cursor1.close()

@@ -19,12 +19,11 @@
     <tbody id="layerbody">
                 {% for book in books %}
                 <tr>
-                    <td>{{ book['borrow_id'] }}</td>
-                    <td>{{ book['library_card_number'] }}</td>
                     <td>{{ book['ISBN'] }}</td>
+                    <td>{{ book['book_title'] }}</td>
                     <td>{{ book['borrow_date'] }}</td>
                     <td>{{ book['due_date'] }}</td>
-                    <td>{{ book['return_date'] }}</td>
+                    <td>{{ book['fine'] }}</td>
                 </tr>
                 {% endfor %}
     </tbody>
@@ -38,7 +37,26 @@
 
 
 {% block script %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var table = $('#layer').DataTable({
+            "pageLength": 10,
+            "pagingType": "simple_numbers",
+            "drawCallback": function(settings) {
+                var pageInfo = table.page.info();
+                $('#currentPage').text(pageInfo.page + 1);
+            }
+        });
 
+        $('#previousPage').on('click', function() {
+            table.page('previous').draw('page');
+        });
+
+        $('#nextPage').on('click', function() {
+            table.page('next').draw('page');
+        });
+    });
+</script>
 {% endblock %}
 
 
