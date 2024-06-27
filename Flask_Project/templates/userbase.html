@@ -48,37 +48,25 @@
             <ul class="layui-nav layui-nav-tree" style="background: #333">
 
                 <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-template-1"></i>&nbsp图书管理</a>
+                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-template-1"></i>&nbsp图书查询</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this">
-                            <a href="{{ url_for('Admin_add_book') }}">&nbsp&nbsp&nbsp&nbsp&nbsp图书入库</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_overdue_book') }}">&nbsp&nbsp&nbsp&nbsp&nbsp到期未还图书</a>
+                            <a href="{{ url_for('User_select_book') }}">&nbsp&nbsp&nbsp&nbsp&nbsp图书查询</a>
                         </dd>
                     </dl>
                 </li>
 
                 <li class="layui-nav-item">
-                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-user"></i>&nbsp读者管理</a>
+                    <a href="javascript:;">&nbsp&nbsp&nbsp&nbsp&nbsp<i class="layui-icon layui-icon-user"></i>&nbsp个人信息</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this">
-                            <a href="{{ url_for('Admin_all_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp读者信息</a>
+                            <a href="{{ url_for('User_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp个人信息</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="{{ url_for('Admin_add_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp添加读者</a>
+                            <a href="{{ url_for('User_borrow') }}">&nbsp&nbsp&nbsp&nbsp&nbsp当前借书信息</a>
                         </dd>
                         <dd class="layui-this">
-                            <a href="{{ url_for('Admin_update_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp更新读者信息</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_delete_reader') }}">&nbsp&nbsp&nbsp&nbsp&nbsp删除读者信息</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_get_reader_info') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询读者</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="{{ url_for('Admin_get_reader_fines') }}">&nbsp&nbsp&nbsp&nbsp&nbsp查询欠费情况</a>
+                            <a href="{{ url_for('User_fine') }}">&nbsp&nbsp&nbsp&nbsp&nbsp欠款情况</a>
                         </dd>
                     </dl>
                 </li>
@@ -113,6 +101,8 @@
         var element = layui.element;
         element.init();
     });
+    layui.use('layer', function(){
+    var layer = layui.layer;
     $(document).ready(function(){
         console.log("Document is ready."); // Debugging output
         {% with messages = get_flashed_messages() %}
@@ -124,12 +114,14 @@
             {% endif %}
         {% endwith %}
     });
+});
 </script>
 
 <!-- 标题栏显示当前登录的用户名 -->
 <script>
     // 示例代码以展示用户名和头像
-    $("#username").text("admin");
+    var username = "{{ session['name'] }}"
+    $("#username").text(username);
     var avata_url = "../static/img/avata/defaultavata.jpg";
     $("#headavata").attr("src", avata_url);
 </script>

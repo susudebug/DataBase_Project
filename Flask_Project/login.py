@@ -46,7 +46,8 @@ def register(name:str,password:str,title:str,phone_number:str,department:str,gen
 
         cursor1=cnxn.cursor()
         cursor1.execute("insert into login_table(Password,Role) values(?,?)",password,is_root)
-        cursor1.execute("insert into reader_info(library_card_number,name) values(?,?)",account,name)
+        if is_root==0:
+            cursor1.execute("insert into reader_info(library_card_number,name) values(?,?)",account,name)
         if len(title)>0:
             cursor1.execute("update reader_info set title=? where library_card_number=?",title,account)
         if len(gender)>0:
@@ -84,10 +85,18 @@ def login(account:int,password:str):
             cursor1.close()
             cnxn.close()
             return error(1,"用户名或密码错误")
-        
+        ret = {"role":role[0]}
+        if role[0] == 0:
+            cursor1.execute("select name from reader_info where library_card_number=?",account)
+            name = cursor1.fetchone()
+            if name is None:
+                cursor1.close()
+                cnxn.close()
+                return error(2,"找不到用户信息，请联系管理员")                
+            ret['name']=name[0]
         cursor1.close()
         cnxn.close()
-        return success(role)
+        return success(ret)
     except pyodbc.DatabaseError as e:
         cursor1.rollback()
         cursor1.close()

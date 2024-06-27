@@ -3,7 +3,9 @@ from login import admin_login
 import pyodbc
 import datetime
 
-def borrow_book(library_card_number:int,isbn:str,due_date:str,begin_date=None):
+borrow_days=90
+
+def borrow_book(library_card_number:int,isbn:str,due_date=None,begin_date=None):
     try:
         cnxn=admin_login()
         cursor1=cnxn.cursor()
@@ -58,6 +60,8 @@ def borrow_book(library_card_number:int,isbn:str,due_date:str,begin_date=None):
         cursor1.execute("update reader_info set borrowed_quantity=borrowed_quantity+1 where library_card_number=" + str(library_card_number))
         if begin_date is None:
             begin_date=now.strftime("%Y-%m-%d")
+        if due_date is None:
+            due_date = (now + datetime.timedelta(days=borrow_days)).strftime("%Y-%m-%d")
         cursor1.execute("INSERT INTO borrow_info (library_card_number, ISBN, borrow_date, due_date, fine)VALUES(?,?,?,?,?) ", \
                         library_card_number,str(isbn),begin_date,due_date,0)
         cursor1.execute("update book_info set available_quantity=available_quantity-1 where ISBN=?",isbn)

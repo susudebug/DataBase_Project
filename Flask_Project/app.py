@@ -3,6 +3,7 @@ from login import *
 from admin import *
 from updateFines import *
 from print_fines import *
+from borrowbook import *
 update_fines()
 
 app = Flask(__name__)
@@ -23,17 +24,19 @@ def Login():
         if login_status['success']:
             user_data = login_status['data']
             session['account'] = account
-            session['role'] = user_data[0]
+            print(user_data)
+            session['role'] = user_data['role']
             if int(session['role']) == 1:
                 return redirect(url_for('Admin_menu'))
             else:
+                session['name']=user_data['name']
                 return redirect(url_for('User_home'))
         else:
-            flash('Login failed. Please check your credentials and try again.')
+            flash(login_status["message"])
             return redirect(url_for('Login'))
     return render_template('login.html')
     
-
+# 注册页面
 @app.route('/register',methods=['GET','POST'])
 def Register():
     if request.method == 'POST':
@@ -61,6 +64,12 @@ def Register():
             flash(register_status['message'])
             return render_template('register.html')
     return render_template('register.html')
+
+# 登出页面
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('Login'))
 
 # 管理员页面
 @app.route('/admin/index', methods=['GET', 'POST'])
@@ -200,6 +209,44 @@ def User_home():
     """
     TODO:用户的主界面
     """
-    pass
+    return render_template('userindex.html')
+
+@app.route('/user/select', methods=['GET', 'POST'])
+def User_select_book():
+    """
+    TODO:查询
+    """
+    # 借书部分
+    if request.method=='POST':
+        isbn=request.form['isbn']
+        borrow_status = borrow_book(library_card_number=int(session['account']),isbn=isbn)
+        if borrow_status['success']:
+            flash("借书成功")
+            return render_template("user_select_book.html")
+        else:
+            flash("借书失败"+borrow_book["message"])
+            return render_template("user_select_book.html")
+
+@app.route('/user/info')
+def User_reader_info():
+    """
+    TODO:用户个人信息主界面
+    """
+    return render_template('user_reader_info.html')
+
+@app.route('/user/borrow')
+def User_borrow():
+    """
+    TODO:当前借书信息
+    """
+    return render_template('user_borrow.html')
+
+@app.route('/user/fine')
+def User_fine():
+    """
+    TODO:用户罚款信息
+    """
+    return render_template('user_fine.html')
+
 if __name__ == '__main__':
     app.run()
