@@ -263,6 +263,6 @@ def User_fine():
 @app.route('user/notreturn')
 def after_return():
     data = session.pop('return_data', None)  # 读取并移除 session 中的数据
-    return render_template('after_return.html',data=data)
+    return render_template('after_return.html',book=data)
 if __name__ == '__main__':
     app.run()
