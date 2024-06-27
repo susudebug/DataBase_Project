@@ -1,0 +1,46 @@
+{% extends 'userbase.html' %}
+
+{% block card_header %}
+<span><a href="/index"> 用户页面 / </a></span><span>仍未归还图书</span>
+{% endblock %}
+
+
+{% block card_body %}
+<table class="layui-table" id="layer">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>书名</th>
+            <th>借出日期</th>
+            <th>借阅期限</th>
+            <th>罚金</th>
+        </tr>
+    </thead>
+    <tbody id="layerbody">
+                {% for book in books %}
+                <tr>
+                    <td>{{ book['borrow_id'] }}</td>
+                    <td>{{ book['library_card_number'] }}</td>
+                    <td>{{ book['ISBN'] }}</td>
+                    <td>{{ book['borrow_date'] }}</td>
+                    <td>{{ book['due_date'] }}</td>
+                    <td>{{ book['return_date'] }}</td>
+                </tr>
+                {% endfor %}
+    </tbody>
+</table>
+<div id="pagination-controls">
+<button id="previousPage">上一页</button>
+<span>当前页: <span id="currentPage">1</span></span>
+<button id="nextPage">下一页</button>
+</div>
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
+
+
+
+

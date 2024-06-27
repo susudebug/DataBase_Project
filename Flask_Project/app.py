@@ -234,11 +234,22 @@ def User_reader_info():
     """
     return render_template('user_reader_info.html')
 
-@app.route('/user/borrow')
+@app.route('/user/borrow', methods=['GET', 'POST'])
 def User_borrow():
     """
     TODO:当前借书信息
     """
+    if request.method == 'POST':
+        isbn = request.form['isbn']
+        return_status = return_book(int(session['account']),isbn)
+        if return_status['success']:
+            flash("还书成功")
+            session['return_data'] = return_status['data']
+            return redirect(url_for("after_return"))
+        else:
+            flash("还书失败 "+return_status['message'])
+            return render_template('user_borrow.html')
+            
     return render_template('user_borrow.html')
 
 @app.route('/user/fine')
@@ -248,5 +259,10 @@ def User_fine():
     """
     return render_template('user_fine.html')
 
+
+@app.route('user/notreturn')
+def after_return():
+    data = session.pop('return_data', None)  # 读取并移除 session 中的数据
+    return render_template('after_return.html',data=data)
 if __name__ == '__main__':
     app.run()
