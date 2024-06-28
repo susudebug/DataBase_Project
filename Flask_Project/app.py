@@ -4,6 +4,7 @@ from admin import *
 from updateFines import *
 from print_fines import *
 from borrowbook import *
+import json
 update_fines()
 
 app = Flask(__name__)
@@ -224,7 +225,7 @@ def User_select_book():
             flash("借书成功")
             return render_template("user_select_book.html")
         else:
-            flash("借书失败"+borrow_book["message"])
+            flash("借书失败"+borrow_status["message"])
             return render_template("user_select_book.html")
 
 @app.route('/user/info')
@@ -244,7 +245,7 @@ def User_borrow():
         return_status = return_book(int(session['account']),isbn)
         if return_status['success']:
             flash("还书成功")
-            session['return_data'] = return_status['data']
+            session['return_data'] = return_status['data'][0]
             return redirect(url_for("after_return"))
         else:
             flash("还书失败 "+return_status['message'])
@@ -259,8 +260,32 @@ def User_fine():
     """
     return render_template('user_fine.html')
 
+@app.route('/user/test', methods=['GET', 'POST'])
+def User_test():
+    if request.method=='POST':
+        isbn=request.form['isbn']
+        isread=request.form['isread']
+        if isread=="借":
+            borrow_status = borrow_book(library_card_number=int(session['account']),isbn=isbn)
+            if borrow_status['success']:
+                flash("借书成功")
+                return render_template("test_borrow.html")
+            else:
+                flash("借书失败"+borrow_status["message"])
+                return render_template("test_borrow.html")
+        else:
+            return_status = return_book(int(session['account']),isbn)
+            if return_status['success']:
+                flash("还书成功")
+                print(return_status['data'])
+                session['return_data'] = json.dumps(return_status['data'], default=str)
+                return redirect(url_for("after_return"))
+            else:
+                flash("还书失败 "+return_status['message'])
+                return render_template("test_borrow.html")           
+    return render_template("test_borrow.html")
 
-@app.route('user/notreturn')
+@app.route('/user/notreturn')
 def after_return():
     data = session.pop('return_data', None)  # 读取并移除 session 中的数据
     return render_template('after_return.html',book=data)

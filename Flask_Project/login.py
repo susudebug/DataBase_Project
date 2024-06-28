@@ -5,6 +5,7 @@ from returnValue import *
 server = ""
 # server = os.environ[''] # 输入要连接的服务器名称
 database = 'LibraryDB'
+borrow_book_num = 10
 
 def admin_login():
     cnxn = pyodbc.connect('DRIVER={SQL Server};\
@@ -47,7 +48,7 @@ def register(name:str,password:str,title:str,phone_number:str,department:str,gen
         cursor1=cnxn.cursor()
         cursor1.execute("insert into login_table(Password,Role) values(?,?)",password,is_root)
         if is_root==0:
-            cursor1.execute("insert into reader_info(library_card_number,name) values(?,?)",account,name)
+            cursor1.execute("insert into reader_info(library_card_number,name,available_quantity,borrowed_quantity) values(?,?,?,?)",account,name,borrow_book_num,0)
         if len(title)>0:
             cursor1.execute("update reader_info set title=? where library_card_number=?",title,account)
         if len(gender)>0:
