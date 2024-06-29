@@ -337,7 +337,7 @@ def User_books_overdue():
     """
     用户逾期未归还的书籍
     """
-    overdue_books = get_overdue_books4U()
+    overdue_books = get_overdue_books()
 
     if overdue_books['success']:
         overdue_books_data = overdue_books['data']
