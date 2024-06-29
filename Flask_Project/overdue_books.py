@@ -22,7 +22,7 @@ def get_overdue_books():
         for book in overdue_books:
             overdue_books_data.append({
                 "borrow_id": book.borrow_id,
-                "library_card_number": book.library_card_number,
+                # "library_card_number": book.library_card_number,
                 "ISBN": book.ISBN,
                 "borrow_date": book.borrow_date,
                 "due_date": book.due_date,
