@@ -310,6 +310,19 @@ def User_reader_info():
         else:
             flash(user_data['message'])
             return redirect(url_for('Login'))
+    
+    if request.method == 'POST':
+        isbn = request.form['isbn']
+        print('isbn')
+        return_status = return_book(int(session['account']), isbn)
+        if return_status['success']:
+            flash("还书成功")
+            print(return_status['data'])
+            session['return_data'] = json.dumps(return_status['data'], default=str)
+            return redirect(url_for("after_return"))
+        else:
+            flash("还书失败 " + return_status['message'])
+            return render_template('user_reader_info.html')
 
     return render_template('user_reader_info.html', form=form, reader_data=reader_data, borrowed_books_data=borrowed_books_data)
 
