@@ -3,21 +3,21 @@ from returnValue import success, error
 import pyodbc
 from datetime import datetime
 
-def get_overdue_books4U():
+def get_overdue_books4U(act):
     try:
         cnxn=admin_login()
         cursor=cnxn.cursor()
         cnxn.autocommit=False
-        
+
         # 查询未归还图书信息
         overdue_books_query = """
         SELECT bi.borrow_id, bi.ISBN, bi.library_card_number, bi.borrow_date, bi.due_date, DATEDIFF(day, bi.due_date, GETDATE()) AS overdue_days, bi.fine
         FROM borrow_info bi
-        WHERE bi.return_date IS NULL AND bi.due_date < GETDATE() and bi.library_card_number = '{}'
-        """.format(logged_in_account)
+        WHERE bi.return_date IS NULL AND bi.due_date < GETDATE() and bi.library_card_number = ?
+        """
 
-        print(logged_in_account)
-        cursor.execute(overdue_books_query)
+        print()
+        cursor.execute(overdue_books_query, act)
         overdue_books = cursor.fetchall()
         
         overdue_books_data = []
