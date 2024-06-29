@@ -1,19 +1,96 @@
 {% extends 'userbase.html' %}
 
 {% block card_header %}
-<span>用户页面 / </span><span>导览</span>
+    <span><a href="/index"> 个人信息  </a></span><span></span>
 {% endblock %}
-
 
 {% block card_body %}
+{#<div class="layui-row layui-col-md6">#}
+{#    <form class="layui-form" method="post" id="searchform">#}
+{#        <div class="layui-row">#}
+{#            <div class="layui-row layui-col-md6">#}
+{#                <div class="layui-input-inline">#}
+{#                    <input type="text" name="library_card_number" class="layui-input" placeholder="请输入想查询读者的借书证号" autocomplete="on" style="width: 600px;">#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </form>#}
+{#</div>#}
+{#<div class="layui-row layui-col-md6">#}
+{#    <div class="layui-input-block" style="margin-left: 20px">#}
+{#        <button class="layui-btn" lay-submit lay-filter="formDemo" onclick="submitForm()">#}
+{#            <i class="layui-icon layui-icon-search layuiadmin-button-btn" id="search2"></i>#}
+{#        </button>#}
+{#    </div>#}
+{#</div>#}
+<br>
 
+<h2>读者信息</h2>
+<table class="layui-table" id="layer">
+    <thead>
+        <tr>
+            <th>借书证号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>职称</th>
+            <th>可借数量</th>
+            <th>已借数量</th>
+            <th>工作部门</th>
+            <th>联系电话</th>
+        </tr>
+    </thead>
+    <tbody id="layerbody">
+        <tr>
+            <td>{{ reader_data.library_card_number }}</td>
+            <td>{{ reader_data.name }}</td>
+            <td>{{ reader_data.gender }}</td>
+            <td>{{ reader_data.title }}</td>
+            <td>{{ reader_data.available_quantity }}</td>
+            <td>{{ reader_data.borrowed_quantity }}</td>
+            <td>{{ reader_data.department }}</td>
+            <td>{{ reader_data.contact_number }}</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<br>
+<h2>当前借书信息</h2>
+<table class="layui-table" id="borrowed_books">
+    <thead>
+        <tr>
+            <th>借书ID</th>
+            <th>ISBN</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>借书日期</th>
+            <th>应还日期</th>
+            <th>归还日期</th>
+            <th>罚款</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in borrowed_books_data %}
+            <tr>
+                <td>{{ book.borrow_id }}</td>
+                <td>{{ book.ISBN }}</td>
+                <td>{{ book.book_title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.borrow_date }}</td>
+                <td>{{ book.due_date }}</td>
+                <td>{{ book.return_date }}</td>
+                <td>{{ book.fine }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
-
 
 {% block script %}
-
+<script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/layui/2.5.6/layui.js"></script>
+<script>
+    function submitForm() {
+        $('#searchform').submit();
+    }
+</script>
 {% endblock %}
-
-
-
-
