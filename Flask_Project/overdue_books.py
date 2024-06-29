@@ -1,9 +1,9 @@
-from login import admin_login
+from login import admin_login, logged_in_account
 from returnValue import success, error
 import pyodbc
 from datetime import datetime
 
-def get_overdue_books():
+def get_overdue_books4U():
     try:
         cnxn=admin_login()
         cursor=cnxn.cursor()
@@ -11,10 +11,10 @@ def get_overdue_books():
         
         # 查询未归还图书信息
         overdue_books_query = """
-        SELECT bi.borrow_id, bi.library_card_number, bi.ISBN, bi.borrow_date, bi.due_date, DATEDIFF(day, bi.due_date, GETDATE()) AS overdue_days, bi.fine
+        SELECT bi.borrow_id, bi.ISBN, bi.library_card_number, bi.borrow_date, bi.due_date, DATEDIFF(day, bi.due_date, GETDATE()) AS overdue_days, bi.fine
         FROM borrow_info bi
-        WHERE bi.return_date IS NULL AND bi.due_date < GETDATE()
-        """
+        WHERE bi.return_date IS NULL AND bi.due_date < GETDATE() and bi.library_card_number = '{}'
+        """.format(logged_in_account)
         cursor.execute(overdue_books_query)
         overdue_books = cursor.fetchall()
         
@@ -44,5 +44,5 @@ def get_overdue_books():
 
 # Example usage
 if __name__ == "__main__":
-    result = get_overdue_books()
+    result = get_overdue_books4U()
     print(result)
