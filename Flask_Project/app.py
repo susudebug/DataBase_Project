@@ -314,8 +314,13 @@ def User_reader_info():
         return_status = return_book(int(session['account']), isbn)
         if return_status['success']:
             flash("还书成功")
-            print(return_status['data'])
-            session['return_data'] = json.dumps(return_status['data'], default=str)
+            ans = []
+            for book in return_status['data']:
+                book['book_title'] = book['book_title'][0]
+                book['fine'] = str(book['fine'])
+                ans.append(book)
+            session['return_data'] = ans
+            print(session['return_data'])
             return redirect(url_for("after_return"))
         else:
             flash("还书失败 " + return_status['message'])
@@ -372,7 +377,7 @@ def User_test():
 @app.route('/user/notreturn')
 def after_return():
     data = session.pop('return_data', None)  # 读取并移除 session 中的数据
-    return render_template('after_return.html', book=data)
+    return render_template('after_return.html', books=data)
 
 
 if __name__ == '__main__':
