@@ -243,9 +243,6 @@ def reader_detail_fines():
 
 @app.route('/user/index')
 def User_home():
-    """
-    TODO:用户的主界面
-    """
     return render_template('userindex.html')
 
 
@@ -326,23 +323,6 @@ def User_reader_info():
 
     return render_template('user_reader_info.html', form=form, reader_data=reader_data, borrowed_books_data=borrowed_books_data)
 
-@app.route('/user/borrow', methods=['GET', 'POST'])
-def User_borrow():
-    """
-    TODO:当前借书信息
-    """
-    if request.method == 'POST':
-        isbn = request.form['isbn']
-        return_status = return_book(int(session['account']), isbn)
-        if return_status['success']:
-            flash("还书成功")
-            session['return_data'] = return_status['data'][0]
-            return redirect(url_for("after_return"))
-        else:
-            flash("还书失败 " + return_status['message'])
-            return render_template('user_borrow.html')
-
-    return render_template('user_borrow.html')
 
 
 @app.route('/user/books_overdue')
