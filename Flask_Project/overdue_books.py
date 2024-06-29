@@ -13,7 +13,7 @@ def get_overdue_books():
         overdue_books_query = """
         SELECT bi.borrow_id, bi.library_card_number, bi.ISBN, bi.borrow_date, bi.due_date, DATEDIFF(day, bi.due_date, GETDATE()) AS overdue_days, bi.fine
         FROM borrow_info bi
-        WHERE bi.return_date IS NULL AND bi.due_date < GETDATE()
+        WHERE bi.return_date IS NONE AND bi.due_date < GETDATE()
         """
         cursor.execute(overdue_books_query)
         overdue_books = cursor.fetchall()

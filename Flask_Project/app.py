@@ -204,11 +204,19 @@ def Admin_get_reader_info():
     if request.method == 'POST' and request.form.get('library_card_number'):
         library_card_number = request.form.get('library_card_number')
         data = get_reader_info(library_card_number)
-        reader = data['data']
+        reader=data['data']['reader_info']
         return render_template('getReaderInfo.html', reader=reader)
     else:
-        data = print_all_reader_info()
-        reader = data['data']
+        reader = {
+            'library_card_number': '',
+            'name': '',
+            'gender': '',
+            'title': '',
+            'available_quantity': '',
+            'borrowed_quantity': '',
+            'department': '',
+            'contact_number': ''
+        }
         return render_template('getReaderInfo.html', reader=reader)
 
 
