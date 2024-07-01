@@ -2,8 +2,8 @@ import pyodbc
 import os
 from returnValue import *
 
-# server = "your_server"
-server = os.environ[''] # 输入要连接的服务器名称
+server = ""    # 输入要连接的服务器名称
+
 database = 'LibraryDB'
 
 def admin_login():
