@@ -2,7 +2,7 @@ import pyodbc
 import os
 from returnValue import *
 
-server = ""
+server = "LAPTOP-CG498NGK"
 # server = os.environ[''] # 输入要连接的服务器名称
 database = 'LibraryDB'
 borrow_book_num = 10
